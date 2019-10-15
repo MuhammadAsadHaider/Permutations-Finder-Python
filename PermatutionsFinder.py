@@ -50,7 +50,6 @@ def main(a):
     final = {}
     x, y = preprocess(a)
     result = task(x)
-    noStr = []
     if (len(y) == 0):
         return result
     for i in range(len(result)):
