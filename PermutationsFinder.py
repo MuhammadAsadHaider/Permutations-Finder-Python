@@ -12,8 +12,8 @@ def randomword():
 def sumOfNumMap(a):
     return sum([numberMap[i] for i in a])
 
+results = {}
 def memoize(f):
-    results = {}
     def helper(a):
         num = sumOfNumMap(a)
         if num not in results:
@@ -86,7 +86,7 @@ def main(a):
 
 
 
-testInput = "abcdefghij"       #Example of string with repeated items
+testInput = "abcde"       #Example of string with repeated items
 
 t1 = time.time()
 print(len(main(testInput)))
@@ -94,6 +94,6 @@ print(len(main(testInput)))
 print("Done", time.time() - t1, "seconds")
 
 
-
+print(results)
 
 
