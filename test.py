@@ -70,10 +70,10 @@ def main(a):
 
 
 
-testInput = "123456789"       #Example of string with repeated items
+testInput = ['1','2','3','4','5','6']       #Example of string with repeated items
 
 t1 = time.time()
-main(testInput)
+print(len(main(testInput)))
 
 print("Done", time.time() - t1, "seconds")
 
