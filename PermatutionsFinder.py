@@ -1,21 +1,26 @@
 import random
 import string
+import time
+from itertools import permutations
 
-
+numberMap = {}
 
 def randomword():
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(5))
 
+def sumOfNumMap(a):
+    return sum([numberMap[i] for i in a])
 
 def memoize(f):
     results = {}
     def helper(a):
-        if str(a) not in results:
-            results[str(a)] = f(a)
-        return results[str(a)]
-
+        num = sumOfNumMap(a)
+        if num not in results:
+            results[num] = f(a)
+        return results[num]
     return helper
+
 
 
 @memoize
@@ -42,7 +47,10 @@ def preprocess(a):  # For Finding Repeated Items
             a[i] = randomword()
             repeated[a[i]] = temp
         checkRepeat[a[i]] = 1
-    return list(checkRepeat), repeated
+    r = list(checkRepeat)
+    for j in r:
+        numberMap[j] = random.randint(1000,10000)
+    return r, repeated
 
 
 def main(a):
@@ -60,12 +68,13 @@ def main(a):
     return list(final.values())
 
 
-testInput1 = [1,2,3]   #Example of list of items
-testInput2 = "121"       #Example of string with repeated items
 
-print(main(testInput1))
+testInput = "123456789a"       #Example of string with repeated items
 
-print(main(testInput2))
+t1 = time.time()
+main(testInput)
+
+print("Done", time.time() - t1, "seconds")
 
 
 
