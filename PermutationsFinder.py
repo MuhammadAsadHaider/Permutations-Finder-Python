@@ -36,7 +36,23 @@ def task(a):
             res.append(l)
     return res
 
-
+def numGenerator(seed,n):
+    r = [seed]
+    temp = []
+    inValid = {}
+    inValid[seed] = 1
+    i = 0
+    while len(r)<n:
+        num = r[i] + random.randint(1,1000000)
+        if num not in inValid:
+            for j in list(inValid.keys()):
+                temp.append(j+num)
+            for k in temp:
+                inValid[k] = 1
+            inValid[num] = 1
+            r.append(num)
+            i+=1
+    return r
 
 def preprocess(a):  # For Finding Repeated Items
     checkRepeat = {}
@@ -48,7 +64,7 @@ def preprocess(a):  # For Finding Repeated Items
             repeated[a[i]] = temp
         checkRepeat[a[i]] = 1
     r = list(checkRepeat)
-    randNums = random.sample(range(1, 100), len(r)) 
+    randNums = numGenerator(1,len(a))
     for j,k in enumerate(r):        
         numberMap[k] = randNums[j]
     return r, repeated
@@ -70,10 +86,10 @@ def main(a):
 
 
 
-testInput = "123456789"       #Example of string with repeated items
+testInput = "abcdefghij"       #Example of string with repeated items
 
 t1 = time.time()
-main(testInput)
+print(len(main(testInput)))
 
 print("Done", time.time() - t1, "seconds")
 
