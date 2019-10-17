@@ -30,8 +30,9 @@ def allPermutations(num,res):
     dataList = deepcopy(inputData)
     dataList.remove(res[0][0])
     r = [k if k != res[0][0] else i for i in dataList for j in res for k in j if i not in j]    
-    t = [[r[i]]+[r[i+1]] for i in range(0,len(r)-1,2)]
+    t = [r[i:i+len(res[0])] for i in range(0,len(r)-1,len(res[0]))]
     print(t)
+    print("Res:",res)
     
 @memoize
 def task(a):
