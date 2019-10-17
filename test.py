@@ -2,6 +2,7 @@ import random
 import string
 import time
 from itertools import permutations
+from copy import deepcopy
 
 numberMap = {}
 
@@ -19,19 +20,18 @@ def memoize(f):
         num = sumOfNumMap(a)
         if num not in results:
             results[num] = f(a)
+            allPermutations(num,results[num])
         return results[num]
     return helper
 
 
 def allPermutations(num,res):
-    inputData = ['a','b','c','d']
-    inputData.remove(res[0][0])
-    r = [k if k != res[0][0] else i for i in inputData for j in res for k in j]
-    print(r)
+    res = list(res)    
+    dataList = deepcopy(inputData)
+    dataList.remove(res[0][0])
+    r = [k if k != res[0][0] else i for i in dataList for j in res for k in j if i not in j]
+    
 
-print(allPermutations(1,[['c','d'],['d','c']]))
-
-#j if j != res[0] else k for j in res 
 
 
 
@@ -100,14 +100,12 @@ def main(a):
 
 
 
-# testInput = "abcd"       #Example of string with repeated items
+testInput = "abcd"       #Example of string with repeated items
 
-# t1 = time.time()
-# print(len(main(testInput)))
+t1 = time.time()
+print(len(main(testInput)))
 
-# print("Done", time.time() - t1, "seconds")
+print("Done", time.time() - t1, "seconds")
 
-
-# print(results)
 
 
