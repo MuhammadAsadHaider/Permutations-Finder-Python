@@ -86,7 +86,7 @@ def main(a):
 
 
 
-testInput = "abcde"       #Example of string with repeated items
+testInput = "abcd"       #Example of string with repeated items
 
 t1 = time.time()
 print(len(main(testInput)))

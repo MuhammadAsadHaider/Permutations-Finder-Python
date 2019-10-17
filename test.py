@@ -1,6 +1,52 @@
 import random
+import string
+import time
+from itertools import permutations
+
+numberMap = {}
+
+def randomword():
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(5))
+
+def sumOfNumMap(a):
+    return sum([numberMap[i] for i in a])
 
 
+def memoize(f):
+    results = {}
+    def helper(a):
+        num = sumOfNumMap(a)
+        if num not in results:
+            results[num] = f(a)
+        return results[num]
+    return helper
+
+
+def allPermutations(num,res):
+    inputData = ['a','b','c','d']
+    inputData.remove(res[0][0])
+    r = [k if k != res[0][0] else i for i in inputData for j in res for k in j]
+    print(r)
+
+print(allPermutations(1,[['c','d'],['d','c']]))
+
+#j if j != res[0] else k for j in res 
+
+
+
+@memoize
+def task(a):
+    res = []
+    if (len(a) == 1):
+        return a
+    if (len(a) == 2):
+        return [a[0]] + [a[1]], [a[1]] + [a[0]]
+    for i in range(len(a)):
+        k = [[a[i]] + j for j in task(a[:i] + a[i + 1:])]
+        for l in k:
+            res.append(l)
+    return res
 
 def numGenerator(seed,n):
     r = [seed]
@@ -9,7 +55,7 @@ def numGenerator(seed,n):
     inValid[seed] = 1
     i = 0
     while len(r)<n:
-        num = r[i] + random.randint(1,1000)
+        num = r[i] + random.randint(1,1000000)
         if num not in inValid:
             for j in list(inValid.keys()):
                 temp.append(j+num)
@@ -20,4 +66,48 @@ def numGenerator(seed,n):
             i+=1
     return r
 
-print(numGenerator(1,10))
+def preprocess(a):  # For Finding Repeated Items
+    checkRepeat = {}
+    repeated = {}   
+    global inputData
+    inputData = a 
+    for i in range(len(a)):
+        if (a[i] in checkRepeat):
+            temp = a[i]
+            a[i] = randomword()
+            repeated[a[i]] = temp
+        checkRepeat[a[i]] = 1
+    r = list(checkRepeat)
+    randNums = numGenerator(1,len(a))
+    for j,k in enumerate(r):        
+        numberMap[k] = randNums[j]
+    return r, repeated
+
+
+def main(a):
+    a = list(a)
+    final = {}
+    x, y = preprocess(a)
+    result = task(x)
+    if (len(y) == 0):
+        return result
+    for i in range(len(result)):
+        for j in range(len(result[i])):
+            if result[i][j] in y:
+                result[i][j] = y[result[i][j]]
+        final["".join(str(z) for z in result[i])] = result[i]
+    return list(final.values())
+
+
+
+# testInput = "abcd"       #Example of string with repeated items
+
+# t1 = time.time()
+# print(len(main(testInput)))
+
+# print("Done", time.time() - t1, "seconds")
+
+
+# print(results)
+
+
